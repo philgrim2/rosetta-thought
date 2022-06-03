@@ -120,7 +120,7 @@ type Configuration struct {
 	ConfigPath             string
 	Pruning                *PruningConfiguration
 	IndexerPath            string
-	BitcoindPath           string
+	ThoughtdPath           string
 	Compressors            []*encoder.CompressorEntry
 }
 

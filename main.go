@@ -24,11 +24,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/coinbase/rosetta-thought/thought"
-	"github.com/coinbase/rosetta-thought/configuration"
-	"github.com/coinbase/rosetta-thought/indexer"
-	"github.com/coinbase/rosetta-thought/services"
-	"github.com/coinbase/rosetta-thought/utils"
+	"github.com/philgrim2/rosetta-thought/thought"
+	"github.com/philgrim2/rosetta-thought/configuration"
+	"github.com/philgrim2/rosetta-thought/indexer"
+	"github.com/philgrim2/rosetta-thought/services"
+	"github.com/philgrim2/rosetta-thought/utils"
 
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/server"

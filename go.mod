@@ -1,4 +1,4 @@
-module github.com/coinbase/rosetta-thought
+module github.com/philgrim2/rosetta-thought
 
 go 1.16
 

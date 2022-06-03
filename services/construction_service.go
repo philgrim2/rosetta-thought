@@ -37,7 +37,7 @@ import (
 )
 
 const (
-	// bytesInKB is the number of bytes in a KB. In Bitcoin, this is
+	// bytesInKB is the number of bytes in a KB. In Thought, this is
 	// considered to be 1000.
 	bytesInKb = float64(1000) // nolint:gomnd
 
@@ -197,7 +197,7 @@ func (s *ConstructionAPIService) ConstructionMetadata(
 	}
 
 	// Calculated the estimated fee in Satoshis
-	satoshisPerB := (feePerKB * float64(thought.SatoshisInBitcoin)) / bytesInKb
+	satoshisPerB := (feePerKB * float64(thought.NotionsInThought)) / bytesInKb
 	estimatedFee := satoshisPerB * options.EstimatedSize
 	suggestedFee := &types.Amount{
 		Value:    fmt.Sprintf("%d", int64(estimatedFee)),
@@ -777,7 +777,7 @@ func (s *ConstructionAPIService) ConstructionSubmit(
 
 	txHash, err := s.client.SendRawTransaction(ctx, signed.Transaction)
 	if err != nil {
-		return nil, wrapErr(ErrBitcoind, fmt.Errorf("%w unable to submit transaction", err))
+		return nil, wrapErr(ErrThoughtd, fmt.Errorf("%w unable to submit transaction", err))
 	}
 
 	return &types.TransactionIdentifierResponse{
