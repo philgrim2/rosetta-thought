@@ -22,7 +22,7 @@ WORKDIR /app
 # Source: https://github.com/thoughtnetwork/thought/blob/master/doc/build-unix.md#ubuntu--debian
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ Etc/UTC
-RUN apt-get update && apt-get install -y make gcc g++ autoconf autotools-dev bsdmainutils build-essential git libboost-all-dev \
+RUN apt-get update && apt-get install -y curl cmake default-jdk make gcc g++ autoconf autotools-dev bsdmainutils build-essential git libboost-all-dev \
   libcurl4-openssl-dev libdb++-dev libevent-dev libssl-dev libtool pkg-config python python3-pip libzmq3-dev wget
 
 # VERSION: Thought Core 0.18.2
@@ -30,8 +30,7 @@ RUN git clone https://github.com/thoughtnetwork/thought \
   && cd thought 
 
 RUN cd thought \
-  && ./build-static.sh \
-  && ./configure --disable-tests --without-miniupnpc --without-gui --with-incompatible-bdb --disable-hardening --disable-zmq --disable-bench --disable-wallet \
+  && ./configure-static.sh --disable-tests --without-miniupnpc --without-gui --with-incompatible-bdb --disable-hardening --disable-zmq --disable-bench --disable-wallet \
   && make
 
 RUN mv thought/src/thoughtd /app/thoughtd \
@@ -45,10 +44,10 @@ RUN mkdir -p /app \
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y curl make gcc g++
-# Install Golang 1.17.5.
-ENV GOLANG_VERSION 1.17.5
+# Install Golang 1.18.3.
+ENV GOLANG_VERSION 1.18.3
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
-ENV GOLANG_DOWNLOAD_SHA256 bd78114b0d441b029c8fe0341f4910370925a4d270a6a590668840675b0c653e
+ENV GOLANG_DOWNLOAD_SHA256 956f8507b302ab0bb747613695cdae10af99bbd39a90cae522b7c0302cc27245
 
 RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz \
   && echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz" | sha256sum -c - \
