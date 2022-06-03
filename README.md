@@ -14,7 +14,7 @@ USE AT YOUR OWN RISK.</b><p>
 
 ## Overview
 
-The `rosetta-thought` repository provides an implementation of the Rosetta API for Thought (THT) based on the reference `rosetta-thought` implementation for Bitcoin in Golang. 
+The `rosetta-thought` repository provides an implementation of the Rosetta API for Thought (THT) based on the reference `rosetta-bitcoin` implementation for Bitcoin in Golang. 
 
 [Rosetta](https://www.rosetta-api.org/docs/welcome.html) is an open-source specification and set of tools that makes integrating with blockchains simpler, faster, and more reliable. The Rosetta API is specified in the [OpenAPI 3.0 format](https://www.openapis.org).
 
