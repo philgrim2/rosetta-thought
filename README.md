@@ -125,7 +125,7 @@ You can run these commands from the command line. If you cloned the repository, 
 
 Uncloned repo:
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 8333:8333 rosetta-thought:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 10618:10618 rosetta-thought:latest
 ```
 Cloned repo:
 ```text
@@ -147,7 +147,7 @@ make run-mainnet-offline
 
 Uncloned repo:
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 18333:18333 rosetta-thought:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 11618:11618 rosetta-thought:latest
 ```
 
 Cloned repo: 
