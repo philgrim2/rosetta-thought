@@ -67,7 +67,7 @@ func TestConstructionService(t *testing.T) {
 	publicKey := &types.PublicKey{
 		Bytes: forceHexDecode(
 			t,
-			"0325c9a4252789b31dbb3454ec647e9516e7c596bcde2bd5da71a60fab8644e438",
+			"039ec9a2265b552b81b0552e6e0d58925cc38c1264ab9828e8c5f071b7dc3d262d",
 		),
 		CurveType: types.Secp256k1,
 	}
@@ -78,7 +78,7 @@ func TestConstructionService(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, &types.ConstructionDeriveResponse{
 		AccountIdentifier: &types.AccountIdentifier{
-			Address: "tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm",
+			Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 		},
 	}, deriveResponse)
 
@@ -90,7 +90,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 			},
 			Amount: &types.Amount{
 				Value:    "-1000000",
@@ -168,7 +168,7 @@ func TestConstructionService(t *testing.T) {
 				RequiredSigs: 1,
 				Type:         "witness_v0_keyhash",
 				Addresses: []string{
-					"tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm",
+				        "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 				},
 			},
 		},
@@ -255,7 +255,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 			},
 			Amount: &types.Amount{
 				Value:    "-1000000",
@@ -275,7 +275,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1q3r8xjf0c2yazxnq9ey3wayelygfjxpfqjvj5v7",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 			},
 			Amount: &types.Amount{
 				Value:    "954843",
@@ -289,7 +289,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1qjsrjvk2ug872pdypp33fjxke62y7awpgefr6ua",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 			},
 			Amount: &types.Amount{
 				Value:    "44657",
@@ -305,7 +305,7 @@ func TestConstructionService(t *testing.T) {
 			"7b98f8b77fa6ef34044f320073118033afdffbd3fd3f8423889d9e5953ff4a30",
 		),
 		AccountIdentifier: &types.AccountIdentifier{
-			Address: "tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 		},
 		SignatureType: types.Ecdsa,
 	}
@@ -358,7 +358,7 @@ func TestConstructionService(t *testing.T) {
 	assert.Equal(t, &types.ConstructionParseResponse{
 		Operations: parseOps,
 		AccountIdentifierSigners: []*types.AccountIdentifier{
-			{Address: "tb1qcqzmqzkswhfshzd8kedhmtvgnxax48z4fklhvm"},
+			{Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq"},
 		},
 	}, parseSignedResponse)
 

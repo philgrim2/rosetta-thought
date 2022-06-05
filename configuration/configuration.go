@@ -24,7 +24,6 @@ import (
 
 	"github.com/philgrim2/rosetta-thought/thought"
 
-	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/coinbase/rosetta-sdk-go/storage/encoder"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
