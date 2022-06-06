@@ -24,7 +24,7 @@ import (
 
 // ParseCoinIdentifier returns the corresponding hash and index associated
 // with a *types.CoinIdentifier.
-func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*chainhash.Hash, uint32, error) {
+func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*Hash, uint32, error) {
 	utxoSpent := strings.Split(coinIdentifier.Identifier, ":")
 
 	outpointHash := utxoSpent[0]
@@ -32,7 +32,7 @@ func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*chainhash.Hash,
 		return nil, 0, fmt.Errorf("outpoint_hash %s is not length 64", outpointHash)
 	}
 
-	hash, err := chainhash.NewHashFromStr(outpointHash)
+	hash, err := NewHashFromStr(outpointHash)
 	if err != nil {
 		return nil, 0, fmt.Errorf("%w unable to construct has from string %s", err, outpointHash)
 	}
@@ -48,10 +48,10 @@ func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*chainhash.Hash,
 // ParseSingleAddress extracts a single address from a pkscript or
 // throws an error.
 func ParseSingleAddress(
-	chainParams *chaincfg.Params,
+	chainParams *Params,
 	script []byte,
-) (txscript.ScriptClass, btcutil.Address, error) {
-	class, addresses, nRequired, err := txscript.ExtractPkScriptAddrs(script, chainParams)
+) (ScriptClass, Address, error) {
+	class, addresses, nRequired, err := ExtractPkScriptAddrs(script, chainParams)
 	if err != nil {
 		return 0, nil, fmt.Errorf("%w unable to extract script addresses", err)
 	}

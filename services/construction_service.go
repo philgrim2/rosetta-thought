@@ -24,7 +24,7 @@ import (
 	"math/big"
 	"strconv"
 
-	"github.com/philgrim2/rosetta-thought/thought"
+	thought "github.com/philgrim2/rosetta-thought/thought"
 	"github.com/philgrim2/rosetta-thought/configuration"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
@@ -67,8 +67,8 @@ func (s *ConstructionAPIService) ConstructionDerive(
 	ctx context.Context,
 	request *types.ConstructionDeriveRequest,
 ) (*types.ConstructionDeriveResponse, *types.Error) {
-	addr, err := btcutil.NewAddressWitnessPubKeyHash(
-		btcutil.Hash160(request.PublicKey.Bytes),
+	addr, err := thought.NewAddressPubKeyHash(
+		thought.Hash160(request.PublicKey.Bytes),
 		s.config.Params,
 	)
 	if err != nil {
@@ -91,13 +91,13 @@ func (s *ConstructionAPIService) estimateSize(operations []*types.Operation) flo
 			size += thought.InputSize
 		case thought.OutputOpType:
 			size += thought.OutputOverhead
-			addr, err := btcutil.DecodeAddress(operation.Account.Address, s.config.Params)
+			addr, err := thought.DecodeAddress(operation.Account.Address, s.config.Params)
 			if err != nil {
 				size += thought.P2PKHScriptPubkeySize
 				continue
 			}
 
-			script, err := txscript.PayToAddrScript(addr)
+			script, err := thought.PayToAddrScript(addr)
 			if err != nil {
 				size += thought.P2PKHScriptPubkeySize
 				continue
@@ -257,7 +257,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		return nil, wrapErr(ErrUnclearIntent, err)
 	}
 
-	tx := wire.NewMsgTx(wire.TxVersion)
+	tx := thought.NewMsgTx(thought.TxVersion)
 	for _, input := range matches[0].Operations {
 		if input.CoinChange == nil {
 			return nil, wrapErr(ErrUnclearIntent, errors.New("CoinChange cannot be nil"))
@@ -268,18 +268,18 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			return nil, wrapErr(ErrInvalidCoin, err)
 		}
 
-		tx.AddTxIn(&wire.TxIn{
-			PreviousOutPoint: wire.OutPoint{
+		tx.AddTxIn(&thought.TxIn{
+			PreviousOutPoint: thought.OutPoint{
 				Hash:  *transactionHash,
 				Index: index,
 			},
 			SignatureScript: nil,
-			Sequence:        wire.MaxTxInSequenceNum,
+			Sequence:        thought.MaxTxInSequenceNum,
 		})
 	}
 
 	for i, output := range matches[1].Operations {
-		addr, err := btcutil.DecodeAddress(output.Account.Address, s.config.Params)
+		addr, err := thought.DecodeAddress(output.Account.Address, s.config.Params)
 		if err != nil {
 			return nil, wrapErr(ErrUnableToDecodeAddress, fmt.Errorf(
 				"%w unable to decode address %s",
@@ -289,7 +289,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			)
 		}
 
-		pkScript, err := txscript.PayToAddrScript(addr)
+		pkScript, err := thought.PayToAddrScript(addr)
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToDecodeAddress,
@@ -297,7 +297,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			)
 		}
 
-		tx.AddTxOut(&wire.TxOut{
+		tx.AddTxOut(&thought.TxOut{
 			Value:    matches[1].Amounts[i].Int64(),
 			PkScript: pkScript,
 		})
@@ -333,11 +333,11 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		absAmount := new(big.Int).Abs(matches[0].Amounts[i]).Int64()
 
 		switch class {
-		case txscript.WitnessV0PubKeyHashTy:
-			hash, err := txscript.CalcWitnessSigHash(
+		case thought.PubKeyHashTy:
+			hash, err := thought.CalcSigHash(
 				script,
-				txscript.NewTxSigHashes(tx),
-				txscript.SigHashAll,
+				thought.NewTxSigHashes(tx),
+				thought.SigHashAll,
 				tx,
 				i,
 				absAmount,
@@ -388,7 +388,7 @@ func normalizeSignature(signature []byte) []byte {
 		S: new(big.Int).SetBytes(signature[32:64]),
 	}
 
-	return append(sig.Serialize(), byte(txscript.SigHashAll))
+	return append(sig.Serialize(), byte(thought.SigHashAll))
 }
 
 // ConstructionCombine implements the /construction/combine
@@ -421,7 +421,7 @@ func (s *ConstructionAPIService) ConstructionCombine(
 		)
 	}
 
-	var tx wire.MsgTx
+	var tx thought.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(decodedCoreTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -447,8 +447,8 @@ func (s *ConstructionAPIService) ConstructionCombine(
 		fullsig := normalizeSignature(request.Signatures[i].Bytes)
 
 		switch class {
-		case txscript.WitnessV0PubKeyHashTy:
-			tx.TxIn[i].Witness = wire.TxWitness{fullsig, pkData}
+		case thought.PubKeyHashTy:
+			//tx.TxIn[i].Witness = thought.TxWitness{fullsig, pkData}
 		default:
 			return nil, wrapErr(
 				ErrUnsupportedScriptType,
@@ -507,7 +507,7 @@ func (s *ConstructionAPIService) ConstructionHash(
 		)
 	}
 
-	tx, err := btcutil.NewTxFromBytes(bytesTx)
+	tx, err := thought.NewTxFromBytes(bytesTx)
 	if err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -549,7 +549,7 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 		)
 	}
 
-	var tx wire.MsgTx
+	var tx thought.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(decodedCoreTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -645,7 +645,7 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 		)
 	}
 
-	var tx wire.MsgTx
+	var tx thought.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(serializedTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -656,7 +656,7 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 	ops := []*types.Operation{}
 	signers := []*types.AccountIdentifier{}
 	for i, input := range tx.TxIn {
-		pkScript, err := txscript.ComputePkScript(input.SignatureScript, input.Witness)
+		pkScript, err := thought.ComputePkScript(input.SignatureScript, input.Witness)
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToComputePkScript,

@@ -742,7 +742,7 @@ func (b *Client) parseInputTransactionOperation(
 
 // parseAmount returns the atomic value of the specified amount.
 func (b *Client) parseAmount(amount float64) (uint64, error) {
-	atomicAmount, err := btcutil.NewAmount(amount)
+	atomicAmount, err := NewAmount(amount)
 	if err != nil {
 		return uint64(0), fmt.Errorf("%w: error parsing amount", err)
 	}

@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/philgrim2/rosetta-thought/thought"
+	thought "github.com/philgrim2/rosetta-thought/thought"
 
 	"github.com/coinbase/rosetta-sdk-go/storage/encoder"
 	"github.com/coinbase/rosetta-sdk-go/types"
@@ -111,7 +111,7 @@ type PruningConfiguration struct {
 type Configuration struct {
 	Mode                   Mode
 	Network                *types.NetworkIdentifier
-	Params                 *chaincfg.Params
+	Params                 *thought.Params
 	Currency               *types.Currency
 	GenesisBlockIdentifier *types.BlockIdentifier
 	Port                   int
