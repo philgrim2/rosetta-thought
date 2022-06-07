@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
@@ -91,7 +92,7 @@ var (
 	}
 
 	// MainnetParams are the params for mainnet.
-	MainnetParams = &MainNetParams
+	MainnetParams = &chaincfg.MainNetParams
 
 	// MainnetCurrency is the *types.Currency for mainnet.
 	MainnetCurrency = &types.Currency{
@@ -105,7 +106,7 @@ var (
 	}
 
 	// TestnetParams are the params for testnet.
-	TestnetParams = &TestNet3Params
+	TestnetParams = &chaincfg.TestNet3Params
 
 	// TestnetCurrency is the *types.Currency for testnet.
 	TestnetCurrency = &types.Currency{

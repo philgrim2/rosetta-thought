@@ -19,12 +19,16 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
+	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
+	"github.com/philgrim2/rosetta-thought/thoughtd/util"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
 // ParseCoinIdentifier returns the corresponding hash and index associated
 // with a *types.CoinIdentifier.
-func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*Hash, uint32, error) {
+func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*chainhash.Hash, uint32, error) {
 	utxoSpent := strings.Split(coinIdentifier.Identifier, ":")
 
 	outpointHash := utxoSpent[0]
@@ -32,7 +36,7 @@ func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*Hash, uint32, e
 		return nil, 0, fmt.Errorf("outpoint_hash %s is not length 64", outpointHash)
 	}
 
-	hash, err := NewHashFromStr(outpointHash)
+	hash, err := chainhash.NewHashFromStr(outpointHash)
 	if err != nil {
 		return nil, 0, fmt.Errorf("%w unable to construct has from string %s", err, outpointHash)
 	}
@@ -48,10 +52,10 @@ func ParseCoinIdentifier(coinIdentifier *types.CoinIdentifier) (*Hash, uint32, e
 // ParseSingleAddress extracts a single address from a pkscript or
 // throws an error.
 func ParseSingleAddress(
-	chainParams *Params,
+	chainParams *chaincfg.Params,
 	script []byte,
-) (ScriptClass, Address, error) {
-	class, addresses, nRequired, err := ExtractPkScriptAddrs(script, chainParams)
+) (txscript.ScriptClass, util.Address, error) {
+	class, addresses, nRequired, err := txscript.ExtractPkScriptAddrs(script, chainParams)
 	if err != nil {
 		return 0, nil, fmt.Errorf("%w unable to extract script addresses", err)
 	}

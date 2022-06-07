@@ -27,6 +27,7 @@ import (
 	"time"
 
 	thoughtUtils "github.com/philgrim2/rosetta-thought/utils"
+	"github.com/philgrim2/rosetta-thought/thoughtd/util"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/coinbase/rosetta-sdk-go/utils"
@@ -742,7 +743,7 @@ func (b *Client) parseInputTransactionOperation(
 
 // parseAmount returns the atomic value of the specified amount.
 func (b *Client) parseAmount(amount float64) (uint64, error) {
-	atomicAmount, err := NewAmount(amount)
+	atomicAmount, err := util.NewAmount(amount)
 	if err != nil {
 		return uint64(0), fmt.Errorf("%w: error parsing amount", err)
 	}
