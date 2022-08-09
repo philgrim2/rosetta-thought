@@ -21,11 +21,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"math/big"
 	"strconv"
 
-	thought "github.com/philgrim2/rosetta-thought/thought"
 	"github.com/philgrim2/rosetta-thought/configuration"
+	"github.com/philgrim2/rosetta-thought/thought"
+	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
+	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
+	"github.com/philgrim2/rosetta-thought/thoughtd/util"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -67,8 +69,8 @@ func (s *ConstructionAPIService) ConstructionDerive(
 	ctx context.Context,
 	request *types.ConstructionDeriveRequest,
 ) (*types.ConstructionDeriveResponse, *types.Error) {
-	addr, err := thought.NewAddressPubKeyHash(
-		thought.Hash160(request.PublicKey.Bytes),
+	addr, err := util.NewAddressPubKeyHash(
+		util.Hash160(request.PublicKey.Bytes),
 		s.config.Params,
 	)
 	if err != nil {
@@ -91,13 +93,13 @@ func (s *ConstructionAPIService) estimateSize(operations []*types.Operation) flo
 			size += thought.InputSize
 		case thought.OutputOpType:
 			size += thought.OutputOverhead
-			addr, err := thought.DecodeAddress(operation.Account.Address, s.config.Params)
+			addr, err := util.DecodeAddress(operation.Account.Address, s.config.Params)
 			if err != nil {
 				size += thought.P2PKHScriptPubkeySize
 				continue
 			}
 
-			script, err := thought.PayToAddrScript(addr)
+			script, err := txscript.PayToAddrScript(addr)
 			if err != nil {
 				size += thought.P2PKHScriptPubkeySize
 				continue
@@ -257,7 +259,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		return nil, wrapErr(ErrUnclearIntent, err)
 	}
 
-	tx := thought.NewMsgTx(thought.TxVersion)
+	tx := wire.NewMsgTx(wire.TxVersion)
 	for _, input := range matches[0].Operations {
 		if input.CoinChange == nil {
 			return nil, wrapErr(ErrUnclearIntent, errors.New("CoinChange cannot be nil"))
@@ -268,18 +270,18 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			return nil, wrapErr(ErrInvalidCoin, err)
 		}
 
-		tx.AddTxIn(&thought.TxIn{
-			PreviousOutPoint: thought.OutPoint{
+		tx.AddTxIn(&wire.TxIn{
+			PreviousOutPoint: wire.OutPoint{
 				Hash:  *transactionHash,
 				Index: index,
 			},
 			SignatureScript: nil,
-			Sequence:        thought.MaxTxInSequenceNum,
+			Sequence:        wire.MaxTxInSequenceNum,
 		})
 	}
 
 	for i, output := range matches[1].Operations {
-		addr, err := thought.DecodeAddress(output.Account.Address, s.config.Params)
+		addr, err := util.DecodeAddress(output.Account.Address, s.config.Params)
 		if err != nil {
 			return nil, wrapErr(ErrUnableToDecodeAddress, fmt.Errorf(
 				"%w unable to decode address %s",
@@ -289,7 +291,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			)
 		}
 
-		pkScript, err := thought.PayToAddrScript(addr)
+		pkScript, err := txscript.PayToAddrScript(addr)
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToDecodeAddress,
@@ -297,7 +299,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 			)
 		}
 
-		tx.AddTxOut(&thought.TxOut{
+		tx.AddTxOut(&wire.TxOut{
 			Value:    matches[1].Amounts[i].Int64(),
 			PkScript: pkScript,
 		})
@@ -330,17 +332,14 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 
 		inputAddresses[i] = address
 		inputAmounts[i] = matches[0].Amounts[i].String()
-		absAmount := new(big.Int).Abs(matches[0].Amounts[i]).Int64()
 
 		switch class {
-		case thought.PubKeyHashTy:
-			hash, err := thought.CalcSigHash(
+		case txscript.PubKeyHashTy:
+			hash, err := txscript.CalcSignatureHash(
 				script,
-				thought.NewTxSigHashes(tx),
-				thought.SigHashAll,
+				txscript.SigHashAll,
 				tx,
 				i,
-				absAmount,
 			)
 			if err != nil {
 				return nil, wrapErr(ErrUnableToCalculateSignatureHash, err)
@@ -382,15 +381,6 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 	}, nil
 }
 
-func normalizeSignature(signature []byte) []byte {
-	sig := btcec.Signature{ // signature is in form of R || S
-		R: new(big.Int).SetBytes(signature[:32]),
-		S: new(big.Int).SetBytes(signature[32:64]),
-	}
-
-	return append(sig.Serialize(), byte(thought.SigHashAll))
-}
-
 // ConstructionCombine implements the /construction/combine
 // endpoint.
 func (s *ConstructionAPIService) ConstructionCombine(
@@ -421,7 +411,7 @@ func (s *ConstructionAPIService) ConstructionCombine(
 		)
 	}
 
-	var tx thought.MsgTx
+	var tx wire.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(decodedCoreTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -443,12 +433,11 @@ func (s *ConstructionAPIService) ConstructionCombine(
 			)
 		}
 
-		pkData := request.Signatures[i].PublicKey.Bytes
-		fullsig := normalizeSignature(request.Signatures[i].Bytes)
+		//pkData := request.Signatures[i].PublicKey.Bytes
 
 		switch class {
-		case thought.PubKeyHashTy:
-			//tx.TxIn[i].Witness = thought.TxWitness{fullsig, pkData}
+		case txscript.PubKeyHashTy:
+			// Something?
 		default:
 			return nil, wrapErr(
 				ErrUnsupportedScriptType,
@@ -507,7 +496,7 @@ func (s *ConstructionAPIService) ConstructionHash(
 		)
 	}
 
-	tx, err := thought.NewTxFromBytes(bytesTx)
+	tx, err := util.NewTxFromBytes(bytesTx)
 	if err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -549,7 +538,7 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 		)
 	}
 
-	var tx thought.MsgTx
+	var tx wire.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(decodedCoreTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -645,7 +634,7 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 		)
 	}
 
-	var tx thought.MsgTx
+	var tx wire.MsgTx
 	if err := tx.Deserialize(bytes.NewReader(serializedTx)); err != nil {
 		return nil, wrapErr(
 			ErrUnableToParseIntermediateResult,
@@ -656,7 +645,7 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 	ops := []*types.Operation{}
 	signers := []*types.AccountIdentifier{}
 	for i, input := range tx.TxIn {
-		pkScript, err := thought.ComputePkScript(input.SignatureScript, input.Witness)
+		pkScript, err := txscript.ComputePkScript(input.SignatureScript)
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToComputePkScript,

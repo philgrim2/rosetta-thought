@@ -98,7 +98,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			CoinChange: &types.CoinChange{
 				CoinIdentifier: &types.CoinIdentifier{
-					Identifier: "b14157a5c50503c8cd202a173613dd27e0027343c3d50cf85852dd020bf59c7f:1",
+					Identifier: "bcd5ed8ee4d10e7bc7965bf4fc6fd498d5c5db30b95620ad93de0cc83adce64b:1",
 				},
 				CoinAction: types.CoinSpent,
 			},
@@ -109,7 +109,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1q3r8xjf0c2yazxnq9ey3wayelygfjxpfqjvj5v7",
+				Address: "kuXQJHr4jgHiquoAv4eNcidTgDxJAiWAar",
 			},
 			Amount: &types.Amount{
 				Value:    "954843",
@@ -122,7 +122,7 @@ func TestConstructionService(t *testing.T) {
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
-				Address: "tb1qjsrjvk2ug872pdypp33fjxke62y7awpgefr6ua",
+				Address: "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 			},
 			Amount: &types.Amount{
 				Value:    "44657",
@@ -144,7 +144,7 @@ func TestConstructionService(t *testing.T) {
 		Coins: []*types.Coin{
 			{
 				CoinIdentifier: &types.CoinIdentifier{
-					Identifier: "b14157a5c50503c8cd202a173613dd27e0027343c3d50cf85852dd020bf59c7f:1",
+					Identifier: "bcd5ed8ee4d10e7bc7965bf4fc6fd498d5c5db30b95620ad93de0cc83adce64b:1",
 				},
 				Amount: &types.Amount{
 					Value:    "-1000000",
@@ -166,7 +166,7 @@ func TestConstructionService(t *testing.T) {
 				ASM:          "0 c005b00ad075d30b89a7b65b7dad8899ba6a9c55",
 				Hex:          "0014c005b00ad075d30b89a7b65b7dad8899ba6a9c55",
 				RequiredSigs: 1,
-				Type:         "witness_v0_keyhash",
+				Type:         "pubkey",
 				Addresses: []string{
 				        "kvdPDVw6T6ws8N2fAZiaFMHsJLXWDXtHiq",
 				},

@@ -6,7 +6,6 @@ package txscript
 
 import (
 	"encoding/binary"
-	"errors"
 	"fmt"
 )
 
@@ -16,10 +15,6 @@ var opcodeArrayRef *[256]opcode
 func init() {
 	opcodeArrayRef = &opcodeArray
 }
-
-var (
-    ErrUnsupportedScriptType = errors.New("unsupported script type")
-)
 
 // ScriptTokenizer provides a facility for easily and efficiently tokenizing
 // transaction scripts without creating allocations.  Each successive opcode is
