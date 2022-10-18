@@ -152,7 +152,7 @@ func TestConstructionService(t *testing.T) {
 				},
 			},
 		},
-		EstimatedSize: 142,
+		EstimatedSize: 148,
 		FeeMultiplier: &feeMultiplier,
 	}
 	assert.Equal(t, &types.ConstructionPreprocessResponse{
