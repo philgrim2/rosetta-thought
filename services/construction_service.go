@@ -25,9 +25,10 @@ import (
 
 	"github.com/philgrim2/rosetta-thought/configuration"
 	"github.com/philgrim2/rosetta-thought/thought"
+	"github.com/philgrim2/rosetta-thought/thoughtd/thtec/ecdsa"
 	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
-	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
 	"github.com/philgrim2/rosetta-thought/thoughtd/util"
+	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
 	"github.com/coinbase/rosetta-sdk-go/server"
@@ -335,7 +336,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 
 		switch class {
 		case txscript.PubKeyHashTy:
-			hash, err := txscript.CalcSignatureHash(
+			hash, err := txscript.CalcSignatureHash( //here
 				script,
 				txscript.SigHashAll,
 				tx,
@@ -379,6 +380,12 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		UnsignedTransaction: hex.EncodeToString(rawTx),
 		Payloads:            payloads,
 	}, nil
+}
+
+func normalizeSignature(signature []byte) ([]byte, error) {
+	sig, err := ecdsa.ParseSignature(signature)
+
+	return append(sig.Serialize(), byte(txscript.SigHashAll)), err
 }
 
 // ConstructionCombine implements the /construction/combine
@@ -433,16 +440,27 @@ func (s *ConstructionAPIService) ConstructionCombine(
 			)
 		}
 
-		//pkData := request.Signatures[i].PublicKey.Bytes
+		// normalize signature
+		fullsig, err := normalizeSignature(request.Signatures[i].Bytes)
+		if err != nil {
+			return nil, wrapErr(
+				ErrUnableToParseIntermediateResult,
+				fmt.Errorf("%w transaction signature cannot be normalized", err),
+			)
+		}
 
-		switch class {
-		case txscript.PubKeyHashTy:
-			// Something?
-		default:
+		pkData := request.Signatures[i].PublicKey.Bytes
+
+		if class != txscript.PubKeyHashTy {
 			return nil, wrapErr(
 				ErrUnsupportedScriptType,
 				fmt.Errorf("unupported script type: %s", class),
 			)
+		}
+
+		tx.TxIn[i].SignatureScript, err = txscript.NewScriptBuilder().AddData(fullsig).AddData(pkData).Script()
+		if err != nil {
+			return nil, wrapErr(ErrUnableToParseIntermediateResult, fmt.Errorf("%w calculate input signature", err))
 		}
 	}
 
@@ -548,11 +566,12 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 
 	ops := []*types.Operation{}
 	for i, input := range tx.TxIn {
-		networkIndex := int64(i)
+		//networkIndex := int64(i)
+		//Index:        int64(len(ops))
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index:        int64(len(ops)),
-				NetworkIndex: &networkIndex,
+				Index: int64(i),
+				//NetworkIndex: &networkIndex,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -576,7 +595,8 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 	}
 
 	for i, output := range tx.TxOut {
-		networkIndex := int64(i)
+		//networkIndex := int64(i)
+		//Index:        int64(len(ops))
 		_, addr, err := thought.ParseSingleAddress(s.config.Params, output.PkScript)
 		if err != nil {
 			return nil, wrapErr(
@@ -587,8 +607,8 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index:        int64(len(ops)),
-				NetworkIndex: &networkIndex,
+				Index: int64(i),
+				//NetworkIndex: &networkIndex,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
@@ -661,14 +681,14 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 			)
 		}
 
-		networkIndex := int64(i)
+		//networkIndex := int64(i)
 		signers = append(signers, &types.AccountIdentifier{
 			Address: addr.EncodeAddress(),
 		})
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index:        int64(len(ops)),
-				NetworkIndex: &networkIndex,
+				Index: int64(i),
+				//NetworkIndex: &networkIndex,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -692,7 +712,8 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 	}
 
 	for i, output := range tx.TxOut {
-		networkIndex := int64(i)
+		//networkIndex := int64(i)
+		// Take a look at /rosetta-thought/indexer - Might need to change some things related to network index/index
 		_, addr, err := thought.ParseSingleAddress(s.config.Params, output.PkScript)
 		if err != nil {
 			return nil, wrapErr(
@@ -703,8 +724,8 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index:        int64(len(ops)),
-				NetworkIndex: &networkIndex,
+				Index: int64(i),
+				//NetworkIndex: &networkIndex,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{

@@ -10,12 +10,12 @@ import (
 	"io"
 	"strconv"
 
-        "github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 const (
 	// TxVersion is the current latest supported transaction version.
-	TxVersion = 1
+	TxVersion = 2
 
 	// MaxTxInSequenceNum is the maximum sequence number the sequence field
 	// of a transaction input can be.
@@ -107,7 +107,6 @@ const (
 	// for script validation, each pushed item onto the stack must be less
 	// than 10k bytes.
 	maxWitnessItemSize = 11000
-
 )
 
 // TxFlagMarker is the first byte of the FLAG field in a bitcoin tx
@@ -115,16 +114,18 @@ const (
 // transaction from one that would require a different parsing logic.
 //
 // Position of FLAG in a bitcoin tx message:
-//   ┌─────────┬────────────────────┬─────────────┬─────┐
-//   │ VERSION │ FLAG               │ TX-IN-COUNT │ ... │
-//   │ 4 bytes │ 2 bytes (optional) │ varint      │     │
-//   └─────────┴────────────────────┴─────────────┴─────┘
+//
+//	┌─────────┬────────────────────┬─────────────┬─────┐
+//	│ VERSION │ FLAG               │ TX-IN-COUNT │ ... │
+//	│ 4 bytes │ 2 bytes (optional) │ varint      │     │
+//	└─────────┴────────────────────┴─────────────┴─────┘
 //
 // Zooming into the FLAG field:
-//   ┌── FLAG ─────────────┬────────┐
-//   │ TxFlagMarker (0x00) │ TxFlag │
-//   │ 1 byte              │ 1 byte │
-//   └─────────────────────┴────────┘
+//
+//	┌── FLAG ─────────────┬────────┐
+//	│ TxFlagMarker (0x00) │ TxFlag │
+//	│ 1 byte              │ 1 byte │
+//	└─────────────────────┴────────┘
 const TxFlagMarker = 0x00
 
 // TxFlag is the second byte of the FLAG field in a bitcoin tx message.
