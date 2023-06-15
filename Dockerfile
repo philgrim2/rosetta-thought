@@ -25,7 +25,7 @@ ENV TZ Etc/UTC
 RUN apt-get update && apt-get install -y curl cmake default-jdk make gcc g++ autoconf autotools-dev bsdmainutils build-essential git libboost-all-dev \
   libcurl4-openssl-dev libdb++-dev libevent-dev libssl-dev libtool pkg-config python python3-pip libzmq3-dev wget
 
-# VERSION: Thought Core 0.18.2
+# VERSION: Thought Core 0.18.3
 RUN git clone https://github.com/thoughtnetwork/thought \
   && cd thought 
 
@@ -34,6 +34,7 @@ RUN cd thought \
   && make
 
 RUN mv thought/src/thoughtd /app/thoughtd \
+  && mv thought/src/thought-cli /app/thought-cli \
   && rm -rf thought
 
 # Build Rosetta Server Components
