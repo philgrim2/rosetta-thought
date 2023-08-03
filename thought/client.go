@@ -26,8 +26,8 @@ import (
 	"strconv"
 	"time"
 
-	thoughtUtils "github.com/philgrim2/rosetta-thought/utils"
 	"github.com/philgrim2/rosetta-thought/thoughtd/util"
+	thoughtUtils "github.com/philgrim2/rosetta-thought/utils"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/coinbase/rosetta-sdk-go/utils"
@@ -270,8 +270,8 @@ func (b *Client) SendRawTransaction(
 ) (string, error) {
 	// Parameters:
 	//   1. hextring
-	//   2. maxfeerate (0 means accept any fee)
-	params := []interface{}{serializedTx, 0}
+	//   2. maxfeerate (0 means accept any fee) - Changed to "true" for thoughtd
+	params := []interface{}{serializedTx, true}
 
 	response := &sendRawTransactionResponse{}
 	if err := b.post(ctx, requestMethodSendRawTransaction, params, response); err != nil {
@@ -470,7 +470,7 @@ func (b *Client) getHashFromIndex(
 }
 
 // skipTransactionOperations is used to skip operations on transactions that
-// contain duplicate UTXOs (which are no longer possible after BIP-30). 
+// contain duplicate UTXOs (which are no longer possible after BIP-30).
 //
 // Source: https://github.com/bitcoin/bitcoin/commit/ab91bf39b7c11e9c86bb2043c24f0f377f1cf514
 func skipTransactionOperations(blockNumber int64, blockHash string, transactionHash string) bool {
