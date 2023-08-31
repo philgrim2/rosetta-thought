@@ -269,9 +269,11 @@ func (b *Client) SendRawTransaction(
 	serializedTx string,
 ) (string, error) {
 	// Parameters:
-	//   1. hextring
-	//   2. maxfeerate (0 means accept any fee) - Changed to "true" for thoughtd
-	params := []interface{}{serializedTx, true}
+	// 1. "hexstring"    (string, required) The hex string of the raw transaction)
+	// 2. allowhighfees  (boolean, optional, default=false) Allow high fees
+	// 3. instantsend    (boolean, optional, default=false) Use InstantSend to send this transaction
+	// 4. bypasslimits   (boolean, optional, default=false) Bypass transaction policy limits
+	params := []interface{}{serializedTx, true, false, true}
 
 	response := &sendRawTransactionResponse{}
 	if err := b.post(ctx, requestMethodSendRawTransaction, params, response); err != nil {
@@ -339,9 +341,8 @@ func (b *Client) RawMempool(
 func (b *Client) getPeerInfo(
 	ctx context.Context,
 ) ([]*PeerInfo, error) {
-	params := []interface{}{}
 	response := &peerInfoResponse{}
-	if err := b.post(ctx, requestMethodGetPeerInfo, params, response); err != nil {
+	if err := b.get(ctx, requestMethodGetPeerInfo, response); err != nil {
 		return nil, fmt.Errorf("%w: error posting to JSON-RPC", err)
 	}
 
@@ -376,10 +377,9 @@ func (b *Client) getBlock(
 func (b *Client) getBlockchainInfo(
 	ctx context.Context,
 ) (*BlockchainInfo, error) {
-	params := []interface{}{}
 	response := &blockchainInfoResponse{}
-	if err := b.post(ctx, requestMethodGetBlockchainInfo, params, response); err != nil {
-		return nil, fmt.Errorf("%w: unbale to get blockchain info", err)
+	if err := b.get(ctx, requestMethodGetBlockchainInfo, response); err != nil {
+		return nil, fmt.Errorf("%w: unable to get blockchain info", err)
 	}
 
 	return response.Result, nil
@@ -819,6 +819,52 @@ func (b *Client) post(
 	req.SetBasicAuth(rpcUsername, rpcPassword)
 
 	// Perform the post request
+	res, err := b.httpClient.Do(req.WithContext(ctx))
+	if err != nil {
+		return fmt.Errorf("%w: error posting to rpc-api", err)
+	}
+	defer res.Body.Close()
+
+	// We expect JSON-RPC responses to return `200 OK` statuses
+	if res.StatusCode != http.StatusOK {
+		val, _ := ioutil.ReadAll(res.Body)
+		return fmt.Errorf("invalid response: %s %s", res.Status, string(val))
+	}
+
+	if err = json.NewDecoder(res.Body).Decode(response); err != nil {
+		return fmt.Errorf("%w: error decoding response body", err)
+	}
+
+	// Handle errors that are returned in JSON-RPC responses with `200 OK` statuses
+	return response.Err()
+}
+
+// get makes a HTTP request to a Thought node with no params - issues with gathering bestblockhash from method:getblockchaininfo when using an []interface{}{}
+func (b *Client) get(
+	ctx context.Context,
+	method requestMethod,
+	response jSONRPCResponse,
+) error {
+	rpcRequest := &request{
+		JSONRPC: jSONRPCVersion,
+		ID:      requestID,
+		Method:  string(method),
+	}
+
+	requestBody, err := json.Marshal(rpcRequest)
+	if err != nil {
+		return fmt.Errorf("%w: error marshalling RPC request", err)
+	}
+
+	req, err := http.NewRequest(http.MethodPost, b.baseURL, bytes.NewReader(requestBody))
+	if err != nil {
+		return fmt.Errorf("%w: error constructing request", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.SetBasicAuth(rpcUsername, rpcPassword)
+
+	// Perform the get request
 	res, err := b.httpClient.Do(req.WithContext(ctx))
 	if err != nil {
 		return fmt.Errorf("%w: error posting to rpc-api", err)
