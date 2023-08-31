@@ -77,10 +77,10 @@ RUN apt-get update && \
 
 RUN mkdir -p /app \
   && chown -R nobody:nogroup /app \
-  && mkdir -p /data/thoughtd/testnet3 \
-  && wget --no-check-certificate -O /data/thoughtd/testnet3/testchain.tar.gz https://idea-01.insufficient-light.com/data/testchain.tar.gz \
-  && tar -C /data/thoughtd/testnet3 -xzf /data/thoughtd/testnet3/testchain.tar.gz  \
-  && rm  /data/thoughtd/testnet3/testchain.tar.gz \
+  #&& mkdir -p /data/thoughtd/testnet3 \
+  #&& wget --no-check-certificate -O /data/thoughtd/testnet3/testchain.tar.gz https://idea-01.insufficient-light.com/data/testchain.tar.gz \
+  #&& tar -C /data/thoughtd/testnet3 -xzf /data/thoughtd/testnet3/testchain.tar.gz  \
+  #&& rm  /data/thoughtd/testnet3/testchain.tar.gz \
   && chown -R nobody:nogroup /data
 
 WORKDIR /app
