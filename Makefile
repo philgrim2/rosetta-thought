@@ -20,7 +20,7 @@ TEST_SCRIPT=go test ${GO_PACKAGES}
 LINT_SETTINGS=golint,misspell,gocyclo,gocritic,whitespace,goconst,gocognit,bodyclose,unconvert,lll,unparam
 PWD=$(shell pwd)
 NOFILE=100000
-RECIPIENT=m6cWARU685GQfQos7qNg6isWGCPjvCwyxm
+RECIPIENT=kvc35iKTf57gDG36U9oX8oSrR4VLbmHep5
 
 deps:
 	go get ./...

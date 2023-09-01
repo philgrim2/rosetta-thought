@@ -23,9 +23,9 @@
     },
     "prefunded_accounts": [
       {
-         "privkey": "74199946f1ef7332777e86429d1ae84e45b0b83c1725d649dd20e242b9c63254",
+         "privkey": "b6fdeab22fc96af2f382e11efc62dad3fde733262dae69b3b9e9d35705f0c35a",
          "account_identifier": {
-            "address": "m6HDzykAwooa4WgrpKiSAX63phxUL9B8Mr",
+            "address": "kvc35iKTf57gDG36U9oX8oSrR4VLbmHep5",
             "metadata": {}
          },
          "curve_type": "secp256k1",
