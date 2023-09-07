@@ -139,7 +139,7 @@ func TestConstructionService(t *testing.T) {
 				},
 			},
 		},
-		EstimatedSize: 114, // Change this later
+		EstimatedSize: 192, // Change this later
 		FeeMultiplier: &feeMultiplier,
 	}
 	assert.Equal(t, &types.ConstructionPreprocessResponse{
@@ -187,7 +187,7 @@ func TestConstructionService(t *testing.T) {
 		Metadata: forceMarshalMap(t, metadata),
 		SuggestedFee: []*types.Amount{
 			{
-				Value:    "855", // Describe how fee is calculated in notions
+				Value:    "1440", // Describe how fee is calculated in notions
 				Currency: thought.TestnetCurrency,
 			},
 		},
@@ -219,7 +219,7 @@ func TestConstructionService(t *testing.T) {
 		Metadata: forceMarshalMap(t, metadata),
 		SuggestedFee: []*types.Amount{
 			{
-				Value:    "114", // we don't go below minimum fee rate
+				Value:    "192", // we don't go below minimum fee rate
 				Currency: thought.TestnetCurrency,
 			},
 		},
