@@ -20,7 +20,6 @@ TEST_SCRIPT=go test ${GO_PACKAGES}
 LINT_SETTINGS=golint,misspell,gocyclo,gocritic,whitespace,goconst,gocognit,bodyclose,unconvert,lll,unparam
 PWD=$(shell pwd)
 NOFILE=100000
-RECIPIENT=kvc35iKTf57gDG36U9oX8oSrR4VLbmHep5
 
 deps:
 	go get ./...
@@ -37,13 +36,13 @@ build-release:
 	docker save rosetta-thought:$(version) | gzip > rosetta-thought-$(version).tar.gz;
 
 run-mainnet-online:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "RECIPIENT=\"${RECIPIENT}\"" -p 8080:8080 -p 10618:10618 rosetta-thought:latest
+	docker run -it --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 10618:10618 rosetta-thought:latest
 
 run-mainnet-offline:
-	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-thought:latest
+	docker run -it --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-thought:latest
 
 run-testnet-online:
-	docker run -it --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "RECIPIENT=\"${RECIPIENT}\"" -p 8080:8080 -p 11618:11618 rosetta-thought:latest
+	docker run -it --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/thought-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 11618:11618 rosetta-thought:latest
 
 run-testnet-offline:
 	docker run -it --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-thought:latest

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://www.rosetta-api.org">
-    <img width="90%" alt="Rosetta" src="https://www.rosetta-api.org/img/rosetta_header.png">
+    <img width="90%" alt="Rosetta" src="/assets/rosetta_header2.png">
   </a>
 </p>
 <h3 align="center">
@@ -24,7 +24,7 @@ Requests and responses can be crafted with auto-generated code using [Swagger Co
 
 * Rosetta API implementation (both Data API and Construction API)
 * UTXO cache for all accounts (accessible using the Rosetta `/account/balance` API)
-* Stateless, offline, curve-based transaction construction from any SegWit-Bech32 Address
+* Stateless, offline, curve-based transaction construction from any P2PKH Address
 * Automatically prune thoughtd while indexing blocks
 * Reduce sync time with concurrent block indexing
 * Use [Zstandard compression](https://github.com/facebook/zstd) to reduce the size of data stored on disk without needing to write a manual byte-level encoding
@@ -189,13 +189,28 @@ To speed up indexing, `rosetta-thought` uses concurrent block processing with a 
 
 ## Test the Implementation with the rosetta-cli Tool
 
+Before validation, it is important to note that `rosetta-thought` can use prefunded accounts to automate testing (It currently doesn't, a prompt will appear to fund an address at check:construction). If choosing to utilize prefunded accounts, new accounts will have to be set for testing by modifying `rosetta-cli-conf/testnet/config.json` for either or both `Mainnet` or `Testnet`. Information on how to obtain necessary information can be found within the [prefunded accounts](#prefunded-accounts) section. Additionally, in order to have test funds returned to the sending account (minus fees), you **MUST** set the environment variable for the receiving address: `export RECIPIENT=\"receiving_address\"`
+
 To validate `rosetta-thought`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install) and run one of these commands:
 
+* `rosetta-cli check:spec --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the API implementation is working under Coinbase specifications.
 * `rosetta-cli check:data --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the Data API information in the `testnet` network is correct. It also ensures that the implementation does not miss any balance-changing operations.
 * `rosetta-cli check:construction --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates the blockchain’s construction, signing, and broadcasting.
 * `rosetta-cli check:data --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates that the Data API information in the `mainnet` network is correct. It also ensures that the implementation does not miss any balance-changing operations.
 
 Read the [How to Test your Rosetta Implementation](https://www.rosetta-api.org/docs/rosetta_test.html) documentation for additional details.
+
+## Prefunded Accounts 
+
+**WARNING** It is never a good idea to save private keys in plain text. Utilizing prefunded accounts will do exactly this. Using prefunded accounts is not neceessary for testing. Performing the following steps can potentially lead to loss of account and their associated balances.
+
+To retrieve private keys:
+1. Open ThoughtCore and open the debug console from the tools menu.
+2. Type the command: `listunspent 1` to find an address with atleast 1000 THT for the test.
+3. Type the command: `dumpprivekey "address"` to retrieve the WIF encoded private key.
+4. Base58Decode the private key into bytes.
+5. Remove the first byte (network byte) and the last 5 bytes (compression byte + checksum).
+6. The remaining string of bytes is the raw private key for the specified address.
 
 ## Documentation
 

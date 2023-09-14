@@ -45,7 +45,8 @@ func forceMarshalMap(t *testing.T, i interface{}) map[string]interface{} {
 	return m
 }
 
-func TestConstructionService(t *testing.T) {
+// Testnet test
+func TestConstructionServiceTestnet(t *testing.T) {
 	networkIdentifier = &types.NetworkIdentifier{
 		Network:    thought.TestnetNetwork,
 		Blockchain: thought.Blockchain,
@@ -139,7 +140,7 @@ func TestConstructionService(t *testing.T) {
 				},
 			},
 		},
-		EstimatedSize: 192, // Change this later
+		EstimatedSize: 192,
 		FeeMultiplier: &feeMultiplier,
 	}
 	assert.Equal(t, &types.ConstructionPreprocessResponse{
@@ -187,7 +188,7 @@ func TestConstructionService(t *testing.T) {
 		Metadata: forceMarshalMap(t, metadata),
 		SuggestedFee: []*types.Amount{
 			{
-				Value:    "1440", // Describe how fee is calculated in notions
+				Value:    "1440", // Fee estimate constants - Source: https://bitcoinops.org/en/tools/calc-size/ located in thought/types.go
 				Currency: thought.TestnetCurrency,
 			},
 		},
@@ -219,7 +220,7 @@ func TestConstructionService(t *testing.T) {
 		Metadata: forceMarshalMap(t, metadata),
 		SuggestedFee: []*types.Amount{
 			{
-				Value:    "192", // we don't go below minimum fee rate
+				Value:    "192", // Minimum fee, see metadata suggested fee
 				Currency: thought.TestnetCurrency,
 			},
 		},

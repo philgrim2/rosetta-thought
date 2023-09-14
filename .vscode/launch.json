@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "/home/gavin/Desktop/Thought/Rosetta/Attempt3/rosetta-thought/services"
+            "program": "/home/gavin/Desktop/Rosetta-Thought/rosetta-thought/services"
         }
     ]
 }

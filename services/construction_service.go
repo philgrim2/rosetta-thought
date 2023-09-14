@@ -261,7 +261,13 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		return nil, wrapErr(ErrUnclearIntent, err)
 	}
 
+	// Check for Mainnet or Testnet to modify transaction version (TESTNET=2, MAINNET=3) - "NetworkChain" added to configuration.go for this
 	tx := wire.NewMsgTx(wire.TxVersion)
+	if s.config.NetworkChain != configuration.Testnet {
+		tx = wire.NewMsgTx(wire.MainnetTxVersion)
+	}
+
+	//tx := wire.NewMsgTx(wire.TxVersion)
 	for _, input := range matches[0].Operations {
 		if input.CoinChange == nil {
 			return nil, wrapErr(ErrUnclearIntent, errors.New("CoinChange cannot be nil"))

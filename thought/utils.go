@@ -19,11 +19,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
 	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
 	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
 	"github.com/philgrim2/rosetta-thought/thoughtd/util"
-	"github.com/coinbase/rosetta-sdk-go/types"
 )
 
 // ParseCoinIdentifier returns the corresponding hash and index associated
