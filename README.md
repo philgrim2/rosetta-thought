@@ -121,6 +121,8 @@ Running these commands will start a Docker container in [detached mode](https://
 
 You can run these commands from the command line. If you cloned the repository, you can use the `make` commands shown after the examples.
 
+**When testing either Mainnet or Testnet, please run both the online and offline containers at the same time. Do not run Testnet and Mainnet concurrently.**
+
 ###### **Mainnet:Online**
 
 Uncloned repo:
@@ -189,14 +191,23 @@ To speed up indexing, `rosetta-thought` uses concurrent block processing with a 
 
 ## Test the Implementation with the rosetta-cli Tool
 
-Before validation, it is important to note that `rosetta-thought` can use prefunded accounts to automate testing (It currently doesn't, a prompt will appear to fund an address at check:construction). If choosing to utilize prefunded accounts, new accounts will have to be set for testing by modifying `rosetta-cli-conf/testnet/config.json` for either or both `Mainnet` or `Testnet`. Information on how to obtain necessary information can be found within the [prefunded accounts](#prefunded-accounts) section. Additionally, in order to have test funds returned to the sending account (minus fees), you **MUST** set the environment variable for the receiving address: `export RECIPIENT=\"receiving_address\"`
+Before validation, it is important to note that `rosetta-thought` can use prefunded accounts to automate testing (It currently doesn't, a prompt will appear to fund an address at check:construction). If choosing to utilize prefunded accounts, new accounts will have to be set for testing by modifying `rosetta-cli-conf/testnet/config.json` for either or both `Mainnet` or `Testnet`. Information on how to obtain necessary information can be found within the [prefunded accounts](#prefunded-accounts) section.
+
+* **In order to have funds returned to the sending account** (minus fees), you **MUST** set the environment variable for the receiving address within the terminal running the rosetta-cli: `export RECIPIENT=\"receiving_address\"`
 
 To validate `rosetta-thought`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install) and run one of these commands:
 
-* `rosetta-cli check:spec --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the API implementation is working under Coinbase specifications.
+**Testnet commands**
+
+* `rosetta-cli check:spec --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the API implementation is working under Coinbase specifications. This will only complete if both the online and offline implementation is running.
 * `rosetta-cli check:data --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the Data API information in the `testnet` network is correct. It also ensures that the implementation does not miss any balance-changing operations.
-* `rosetta-cli check:construction --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates the blockchain’s construction, signing, and broadcasting.
+* `rosetta-cli check:construction --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates the blockchain’s construction, signing, and broadcasting. When testing, fund the account asking for 1000 tTHT and wait till test completion. **Do not fund any of the other accounts manually, the test will do this for you**
+
+**Mainnet commands**
+
+* `rosetta-cli check:spec --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates that the API implementation is working under Coinbase specifications. This will only complete if both the online and offline implementation is running.
 * `rosetta-cli check:data --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates that the Data API information in the `mainnet` network is correct. It also ensures that the implementation does not miss any balance-changing operations.
+* `rosetta-cli check:construction --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates the blockchain’s construction, signing, and broadcasting. When testing, fund the account asking for 1000 THT and wait till test completion. **Do not fund any of the other accounts manually, the test will do this for you**
 
 Read the [How to Test your Rosetta Implementation](https://www.rosetta-api.org/docs/rosetta_test.html) documentation for additional details.
 
