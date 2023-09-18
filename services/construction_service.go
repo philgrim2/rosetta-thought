@@ -261,10 +261,10 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		return nil, wrapErr(ErrUnclearIntent, err)
 	}
 
-	// Check for Mainnet or Testnet to modify transaction version (TESTNET=2, MAINNET=3) - "NetworkChain" added to configuration.go for this
-	tx := wire.NewMsgTx(wire.TxVersion)
-	if s.config.NetworkChain != configuration.Testnet {
-		tx = wire.NewMsgTx(wire.MainnetTxVersion)
+	// Check for Mainnet or Testnet to modify transaction version (TESTNET=2, MAINNET=3) - "NetworkChain" added to configuration.go for this - flip order of mainnet and testnet
+	tx := wire.NewMsgTx(wire.MainnetTxVersion)
+	if s.config.NetworkChain != configuration.Mainnet {
+		tx = wire.NewMsgTx(wire.TestnetTxVersion)
 	}
 
 	//tx := wire.NewMsgTx(wire.TxVersion)
