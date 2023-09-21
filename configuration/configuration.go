@@ -112,6 +112,7 @@ type PruningConfiguration struct {
 type Configuration struct {
 	Mode                   Mode
 	Network                *types.NetworkIdentifier
+	NetworkChain           string
 	Params                 *chaincfg.Params
 	Currency               *types.Currency
 	GenesisBlockIdentifier *types.BlockIdentifier
@@ -162,6 +163,7 @@ func LoadConfiguration(baseDirectory string) (*Configuration, error) {
 			Blockchain: thought.Blockchain,
 			Network:    thought.MainnetNetwork,
 		}
+		config.NetworkChain = networkValue
 		config.GenesisBlockIdentifier = thought.MainnetGenesisBlockIdentifier
 		config.Params = thought.MainnetParams
 		config.Currency = thought.MainnetCurrency
@@ -178,6 +180,7 @@ func LoadConfiguration(baseDirectory string) (*Configuration, error) {
 			Blockchain: thought.Blockchain,
 			Network:    thought.TestnetNetwork,
 		}
+		config.NetworkChain = networkValue
 		config.GenesisBlockIdentifier = thought.TestnetGenesisBlockIdentifier
 		config.Params = thought.TestnetParams
 		config.Currency = thought.TestnetCurrency

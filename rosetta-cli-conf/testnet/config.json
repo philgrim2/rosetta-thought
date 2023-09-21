@@ -20,21 +20,7 @@
     "end_conditions": {
       "create_account": 10,
       "transfer": 10
-    },
-    "prefunded_accounts": [
-      {
-         "privkey": "74199946f1ef7332777e86429d1ae84e45b0b83c1725d649dd20e242b9c63254",
-         "account_identifier": {
-            "address": "m6HDzykAwooa4WgrpKiSAX63phxUL9B8Mr",
-            "metadata": {}
-         },
-         "curve_type": "secp256k1",
-         "currency": {
-            "symbol": "tTHT",
-            "decimals": 8
-         }
-      }
-   ]
+    }
   },
   "data": {
     "initial_balance_fetch_disabled": true,

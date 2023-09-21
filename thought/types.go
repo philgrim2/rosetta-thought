@@ -79,8 +79,8 @@ const (
 // Source: https://bitcoinops.org/en/tools/calc-size/
 const (
 	MinFeeRate            = float64(0.00001) // nolint:gomnd
-	TransactionOverhead   = 12               // 4 version, 2 segwit flag, 1 vin, 1 vout, 4 lock time
-	InputSize             = 68               // 4 prev index, 32 prev hash, 4 sequence, 1 script size, ~27 script witness
+	TransactionOverhead   = 10               // 4 version, 1 vin, 1 vout, 4 lock time
+	InputSize             = 148              // P2PKH 1 input
 	OutputOverhead        = 9                // 8 value, 1 script size
 	P2PKHScriptPubkeySize = 25               // P2PKH size
 )
@@ -190,7 +190,7 @@ type Block struct {
 	Weight            int64   `json:"weight"`
 	Bits              string  `json:"bits"`
 	Difficulty        float64 `json:"difficulty"`
-	CuckooProof []int64 `json:"cuckooProof"`
+	CuckooProof       []int64 `json:"cuckooProof"`
 
 	Txs []*Transaction `json:"tx"`
 }
@@ -198,14 +198,14 @@ type Block struct {
 // Metadata returns the metadata for a block.
 func (b Block) Metadata() (map[string]interface{}, error) {
 	m := &BlockMetadata{
-		Nonce:      b.Nonce,
-		MerkleRoot: b.MerkleRoot,
-		Version:    b.Version,
-		Size:       b.Size,
-		Weight:     b.Weight,
-		MedianTime: b.MedianTime,
-		Bits:       b.Bits,
-		Difficulty: b.Difficulty,
+		Nonce:       b.Nonce,
+		MerkleRoot:  b.MerkleRoot,
+		Version:     b.Version,
+		Size:        b.Size,
+		Weight:      b.Weight,
+		MedianTime:  b.MedianTime,
+		Bits:        b.Bits,
+		Difficulty:  b.Difficulty,
 		CuckooProof: b.CuckooProof,
 	}
 
@@ -215,14 +215,14 @@ func (b Block) Metadata() (map[string]interface{}, error) {
 // BlockMetadata is a collection of useful
 // metadata in a block.
 type BlockMetadata struct {
-	Nonce      int64   `json:"nonce,omitempty"`
-	MerkleRoot string  `json:"merkleroot,omitempty"`
-	Version    int32   `json:"version,omitempty"`
-	Size       int64   `json:"size,omitempty"`
-	Weight     int64   `json:"weight,omitempty"`
-	MedianTime int64   `json:"mediantime,omitempty"`
-	Bits       string  `json:"bits,omitempty"`
-	Difficulty float64 `json:"difficulty,omitempty"`
+	Nonce       int64   `json:"nonce,omitempty"`
+	MerkleRoot  string  `json:"merkleroot,omitempty"`
+	Version     int32   `json:"version,omitempty"`
+	Size        int64   `json:"size,omitempty"`
+	Weight      int64   `json:"weight,omitempty"`
+	MedianTime  int64   `json:"mediantime,omitempty"`
+	Bits        string  `json:"bits,omitempty"`
+	Difficulty  float64 `json:"difficulty,omitempty"`
 	CuckooProof []int64 `json:"cuckooProof,omitempty"`
 }
 

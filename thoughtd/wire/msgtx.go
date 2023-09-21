@@ -14,8 +14,9 @@ import (
 )
 
 const (
-	// TxVersion is the current latest supported transaction version.
-	TxVersion = 2
+	// MainnetTxVersion and TestnetTxVersion are the transaction versions of each chain.
+	MainnetTxVersion = 3
+	TestnetTxVersion = 2
 
 	// MaxTxInSequenceNum is the maximum sequence number the sequence field
 	// of a transaction input can be.
