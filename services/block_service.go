@@ -17,7 +17,7 @@ package services
 import (
 	"context"
 
-	"github.com/thoughtcore/rosetta-thought/configuration"
+	"github.com/thoughtnetwork/rosetta-thought/configuration"
 
 	"github.com/coinbase/rosetta-sdk-go/server"
 	"github.com/coinbase/rosetta-sdk-go/types"

@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	secp_ecdsa "github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec"
 )
 
 // Errors returned by canonicalPadding.

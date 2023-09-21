@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // MsgGetHeaders implements the Message interface and represents a bitcoin

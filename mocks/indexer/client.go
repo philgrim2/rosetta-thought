@@ -5,7 +5,7 @@ package indexer
 import (
 	context "context"
 
-	thought "github.com/thoughtcore/rosetta-thought/thought"
+	thought "github.com/thoughtnetwork/rosetta-thought/thought"
 
 	mock "github.com/stretchr/testify/mock"
 

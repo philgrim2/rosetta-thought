@@ -10,8 +10,8 @@ import (
 	"math"
 	"sync"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/wire"
 )
 
 // calcHashPrevOuts calculates a single hash of all the previous outputs

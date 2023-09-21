@@ -22,8 +22,8 @@ import (
 	"strconv"
 	"time"
 
-	thought "github.com/thoughtcore/rosetta-thought/thought"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	thought "github.com/thoughtnetwork/rosetta-thought/thought"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
 
 	"github.com/coinbase/rosetta-sdk-go/storage/encoder"
 	"github.com/coinbase/rosetta-sdk-go/types"

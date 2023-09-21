@@ -7,7 +7,7 @@ package base58_test
 import (
 	"fmt"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/base58"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/base58"
 )
 
 // This example demonstrates how to decode modified base58 encoded data.

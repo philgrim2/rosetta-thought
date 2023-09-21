@@ -8,8 +8,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/wire"
 )
 
 // TxIndexUnknown is the value returned for a transaction index that is unknown.

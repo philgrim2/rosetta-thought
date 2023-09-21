@@ -23,9 +23,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/thoughtcore/rosetta-thought/thought"
-	"github.com/thoughtcore/rosetta-thought/configuration"
-	mocks "github.com/thoughtcore/rosetta-thought/mocks/indexer"
+	"github.com/thoughtnetwork/rosetta-thought/thought"
+	"github.com/thoughtnetwork/rosetta-thought/configuration"
+	mocks "github.com/thoughtnetwork/rosetta-thought/mocks/indexer"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/coinbase/rosetta-sdk-go/utils"

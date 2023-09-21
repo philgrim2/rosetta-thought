@@ -23,7 +23,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/thoughtcore/rosetta-thought/utils"
+	"github.com/thoughtnetwork/rosetta-thought/utils"
 
 	"golang.org/x/sync/errgroup"
 )

@@ -16,10 +16,10 @@ import (
 
 	"golang.org/x/crypto/ripemd160"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec/ecdsa"
 )
 
 // An opcode defines the information related to a txscript opcode.  opfunc, if

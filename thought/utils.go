@@ -20,10 +20,10 @@ import (
 	"strings"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/txscript"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/txscript"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/util"
 )
 
 // ParseCoinIdentifier returns the corresponding hash and index associated

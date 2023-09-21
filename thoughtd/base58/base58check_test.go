@@ -7,7 +7,7 @@ package base58_test
 import (
 	"testing"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/base58"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/base58"
 )
 
 var checkEncodingStringTests = []struct {

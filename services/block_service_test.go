@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/thoughtcore/rosetta-thought/configuration"
-	mocks "github.com/thoughtcore/rosetta-thought/mocks/services"
+	"github.com/thoughtnetwork/rosetta-thought/configuration"
+	mocks "github.com/thoughtnetwork/rosetta-thought/mocks/services"
 
 	"github.com/coinbase/rosetta-sdk-go/types"
 	"github.com/stretchr/testify/assert"

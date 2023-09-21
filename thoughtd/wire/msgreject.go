@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // RejectCode represents a numeric value by which a remote peer indicates

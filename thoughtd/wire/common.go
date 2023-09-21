@@ -12,8 +12,8 @@ import (
 	"math"
 	"time"
 
-        "github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
-        "github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+        "github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
+        "github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 const (

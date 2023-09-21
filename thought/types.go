@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 

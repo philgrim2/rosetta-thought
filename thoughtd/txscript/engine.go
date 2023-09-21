@@ -10,8 +10,8 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec"
 )
 
 // ScriptFlags is a bitmask defining additional operations or tests that will be

@@ -24,12 +24,12 @@ import (
 	"strconv"
 
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
-	"github.com/thoughtcore/rosetta-thought/configuration"
-	"github.com/thoughtcore/rosetta-thought/thought"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/txscript"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtnetwork/rosetta-thought/configuration"
+	"github.com/thoughtnetwork/rosetta-thought/thought"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/txscript"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/util"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/wire"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
 	"github.com/coinbase/rosetta-sdk-go/server"

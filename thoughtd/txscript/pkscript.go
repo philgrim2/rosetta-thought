@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/util"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
 	"golang.org/x/crypto/ripemd160"
 )
 

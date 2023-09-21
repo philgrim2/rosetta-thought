@@ -1,4 +1,4 @@
-module github.com/thoughtcore/rosetta-thought
+module github.com/thoughtnetwork/rosetta-thought
 
 go 1.20
 

@@ -20,7 +20,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/thoughtcore/rosetta-thought/thought"
+	"github.com/thoughtnetwork/rosetta-thought/thought"
 
 	"github.com/coinbase/rosetta-sdk-go/storage/encoder"
 	"github.com/coinbase/rosetta-sdk-go/types"

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // defaultTransactionAlloc is the default size used for the backing array

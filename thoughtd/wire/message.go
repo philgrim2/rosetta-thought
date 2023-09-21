@@ -10,8 +10,8 @@ import (
 	"io"
 	"unicode/utf8"
 
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
-	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtnetwork/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // MessageHeaderSize is the number of bytes in a bitcoin message header.
