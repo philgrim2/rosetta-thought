@@ -8,8 +8,8 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/base58"
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/base58"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
 	"golang.org/x/crypto/ripemd160"
 )
 

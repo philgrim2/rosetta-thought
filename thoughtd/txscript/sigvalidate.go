@@ -5,9 +5,9 @@
 package txscript
 
 import (
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec"
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
 )
 
 // signatureVerifier is an abstract interface that allows the op code execution

@@ -22,10 +22,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/philgrim2/rosetta-thought/thought"
-	"github.com/philgrim2/rosetta-thought/configuration"
-	"github.com/philgrim2/rosetta-thought/services"
-	"github.com/philgrim2/rosetta-thought/utils"
+	"github.com/thoughtcore/rosetta-thought/thought"
+	"github.com/thoughtcore/rosetta-thought/configuration"
+	"github.com/thoughtcore/rosetta-thought/services"
+	"github.com/thoughtcore/rosetta-thought/utils"
 
 	"github.com/coinbase/rosetta-sdk-go/asserter"
 	"github.com/coinbase/rosetta-sdk-go/storage/database"

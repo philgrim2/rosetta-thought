@@ -7,11 +7,11 @@ package txscript
 import (
 	"errors"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec"
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec/ecdsa"
-	"github.com/philgrim2/rosetta-thought/thoughtd/util"
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
-	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
 )
 
 // RawTxInSignature returns the serialized ECDSA signature for the input idx of

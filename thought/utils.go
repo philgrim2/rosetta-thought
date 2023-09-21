@@ -19,10 +19,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
-	"github.com/philgrim2/rosetta-thought/thoughtd/util"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/txscript"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
 	"github.com/coinbase/rosetta-sdk-go/types"
 )
 

@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/base58"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/base58"
 )
 
 var (

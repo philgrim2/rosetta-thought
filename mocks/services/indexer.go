@@ -5,7 +5,7 @@ package services
 import (
 	context "context"
 
-	thought "github.com/philgrim2/rosetta-thought/thought"
+	thought "github.com/thoughtcore/rosetta-thought/thought"
 
 	mock "github.com/stretchr/testify/mock"
 

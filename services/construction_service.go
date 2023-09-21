@@ -23,12 +23,12 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/philgrim2/rosetta-thought/configuration"
-	"github.com/philgrim2/rosetta-thought/thought"
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec/ecdsa"
-	"github.com/philgrim2/rosetta-thought/thoughtd/txscript"
-	"github.com/philgrim2/rosetta-thought/thoughtd/util"
-	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtcore/rosetta-thought/configuration"
+	"github.com/thoughtcore/rosetta-thought/thought"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/txscript"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
 
 	"github.com/coinbase/rosetta-sdk-go/parser"
 	"github.com/coinbase/rosetta-sdk-go/server"

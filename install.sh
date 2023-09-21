@@ -20,7 +20,7 @@ set -e
 usage() {
   this=$1
   cat <<EOF
-$this: download pre-compiled Docker images for philgrim2/rosetta-thought 
+$this: download pre-compiled Docker images for thoughtcore/rosetta-thought 
 
 Usage: $this [-d]
   -d turns on debug logging
@@ -198,7 +198,7 @@ EOF
 
 BINARY=rosetta-thought
 FORMAT=tar.gz
-OWNER=philgrim2
+OWNER=thoughtcore
 REPO="rosetta-thought"
 PREFIX="$OWNER/$REPO"
 

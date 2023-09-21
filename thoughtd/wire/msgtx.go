@@ -10,7 +10,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 const (

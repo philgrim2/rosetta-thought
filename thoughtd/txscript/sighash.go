@@ -10,8 +10,8 @@ import (
 	"encoding/binary"
 	"math"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
-	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
 )
 
 // SigHashType represents hash type bits at the end of a signature.

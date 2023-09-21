@@ -11,7 +11,7 @@ import (
 	"math/big"
 
 	secp_ecdsa "github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa"
-	"github.com/philgrim2/rosetta-thought/thoughtd/thtec"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
 )
 
 // Errors returned by canonicalPadding.

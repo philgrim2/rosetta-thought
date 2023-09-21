@@ -7,9 +7,9 @@ package txscript
 import (
 	"fmt"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/util"
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg"
-	"github.com/philgrim2/rosetta-thought/thoughtd/wire"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/util"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/wire"
 )
 
 const (

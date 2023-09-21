@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // MaxBlockLocatorsPerMsg is the maximum number of block locator hashes allowed

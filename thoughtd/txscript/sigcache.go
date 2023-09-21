@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"sync"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // sigCacheEntry represents an entry in the SigCache. Entries within the

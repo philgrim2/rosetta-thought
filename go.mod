@@ -1,4 +1,4 @@
-module github.com/philgrim2/rosetta-thought
+module github.com/thoughtcore/rosetta-thought
 
 go 1.16
 

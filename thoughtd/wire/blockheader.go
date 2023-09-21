@@ -9,7 +9,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/philgrim2/rosetta-thought/thoughtd/chaincfg/chainhash"
+	"github.com/thoughtcore/rosetta-thought/thoughtd/chaincfg/chainhash"
 )
 
 // MaxBlockHeaderPayload is the maximum number of bytes a block header can be.

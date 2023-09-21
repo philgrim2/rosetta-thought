@@ -25,7 +25,7 @@ deps:
 	go get ./...
 
 build:
-	docker build -t rosetta-thought:latest https://github.com/philgrim2/rosetta-thought.git
+	docker build -t rosetta-thought:latest https://github.com/thoughtcore/rosetta-thought.git
 
 build-local:
 	docker build -t rosetta-thought:latest .
