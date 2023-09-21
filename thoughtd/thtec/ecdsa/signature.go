@@ -8,7 +8,6 @@ package ecdsa
 import (
 	"errors"
 	"fmt"
-	"math/big"
 
 	secp_ecdsa "github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa"
 	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec"
@@ -27,15 +26,6 @@ type Signature = secp_ecdsa.Signature
 func NewSignature(r, s *thtec.ModNScalar) *Signature {
 	return secp_ecdsa.NewSignature(r, s)
 }
-
-var (
-	// Used in RFC6979 implementation when testing the nonce for correctness
-	one = big.NewInt(1)
-
-	// oneInitializer is used to fill a byte slice with byte 0x01.  It is provided
-	// here to avoid the need to create it multiple times.
-	oneInitializer = []byte{0x01}
-)
 
 // MinSigLen is the minimum length of a DER encoded signature and is when both R
 // and S are 1 byte each.

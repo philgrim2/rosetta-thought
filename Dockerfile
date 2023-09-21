@@ -22,7 +22,7 @@ WORKDIR /app
 # Source: https://github.com/thoughtnetwork/thought/blob/master/doc/build-unix.md#ubuntu--debian
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ Etc/UTC
-RUN apt-get update && apt-get install -y curl cmake default-jdk make gcc g++ autoconf autotools-dev bsdmainutils build-essential git libboost-all-dev \
+RUN apt-get update && apt-get install -y curl wget cmake default-jdk make gcc g++ autoconf autotools-dev bsdmainutils build-essential git libboost-all-dev \
   libcurl4-openssl-dev libdb++-dev libevent-dev libssl-dev libtool pkg-config python python3-pip libzmq3-dev wget
 
 # VERSION: Thought Core 0.18.3
@@ -45,10 +45,10 @@ RUN mkdir -p /app \
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y curl make gcc g++
-# Install Golang 1.18.3.
-ENV GOLANG_VERSION 1.18.3
+# Install Golang 1.20
+ENV GOLANG_VERSION 1.20
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
-ENV GOLANG_DOWNLOAD_SHA256 956f8507b302ab0bb747613695cdae10af99bbd39a90cae522b7c0302cc27245
+ENV GOLANG_DOWNLOAD_SHA256 5a9ebcc65c1cce56e0d2dc616aff4c4cedcfbda8cc6f0288cc08cda3b18dcbf1
 
 RUN curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz \
   && echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz" | sha256sum -c - \
@@ -72,18 +72,22 @@ RUN cd src \
 FROM ubuntu:20.04
 
 RUN apt-get update && \
-  apt-get install --no-install-recommends -y libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-thread-dev && \
+  apt-get install --no-install-recommends -y wget libevent-dev libboost-system-dev libboost-filesystem-dev libboost-test-dev libboost-thread-dev && \
   apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /app \
   && chown -R nobody:nogroup /app \
-  && mkdir -p /data \
+  #&& mkdir -p /data/thoughtd/testnet3 \
+  #&& wget --no-check-certificate -O /data/thoughtd/testnet3/testchain.tar.gz https://idea-01.insufficient-light.com/data/testchain.tar.gz \
+  #&& tar -C /data/thoughtd/testnet3 -xzf /data/thoughtd/testnet3/testchain.tar.gz  \
+  #&& rm  /data/thoughtd/testnet3/testchain.tar.gz \
   && chown -R nobody:nogroup /data
 
 WORKDIR /app
 
 # Copy binary from thoughtd-builder
 COPY --from=thoughtd-builder /app/thoughtd /app/thoughtd
+COPY --from=thoughtd-builder /app/thought-cli /app/thought-cli
 
 # Copy binary from rosetta-builder
 COPY --from=rosetta-builder /app/* /app/

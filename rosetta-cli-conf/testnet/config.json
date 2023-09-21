@@ -4,27 +4,45 @@
     "network": "Testnet3"
   },
   "data_directory": "cli-data",
+  "online_url":"http://localhost:8080",
   "http_timeout": 300,
   "max_retries": 5,
   "max_online_connections": 250,
   "max_sync_concurrency": 16,
-  "tip_delay": 1800,
-  "memory_limit_disabled": false,
+  "tip_delay": 300,
   "compression_disabled": true,
   "max_reorg_depth": 50,
+  "coin_supported": true,
   "construction": {
     "constructor_dsl_file": "thought.ros",
+    "offline_url":"http://localhost:8081",
+    
     "end_conditions": {
       "create_account": 10,
       "transfer": 10
-    }
+    },
+    "prefunded_accounts": [
+      {
+         "privkey": "74199946f1ef7332777e86429d1ae84e45b0b83c1725d649dd20e242b9c63254",
+         "account_identifier": {
+            "address": "m6HDzykAwooa4WgrpKiSAX63phxUL9B8Mr",
+            "metadata": {}
+         },
+         "curve_type": "secp256k1",
+         "currency": {
+            "symbol": "tTHT",
+            "decimals": 8
+         }
+      }
+   ]
   },
   "data": {
     "initial_balance_fetch_disabled": true,
     "end_conditions": {
       "reconciliation_coverage": {
         "coverage": 0.95,
-        "from_tip": true
+        "from_tip": true,
+        "tip":true
       }
     }
   }

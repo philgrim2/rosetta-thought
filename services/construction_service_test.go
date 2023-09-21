@@ -86,7 +86,7 @@ func TestConstructionService(t *testing.T) {
 	ops := []*types.Operation{
 		{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: 0, //Might be possible to remove this later
+				Index: 0,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -105,7 +105,7 @@ func TestConstructionService(t *testing.T) {
 		},
 		{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: 0,
+				Index: 1,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
@@ -219,7 +219,7 @@ func TestConstructionService(t *testing.T) {
 		Metadata: forceMarshalMap(t, metadata),
 		SuggestedFee: []*types.Amount{
 			{
-				Value:    "114", // we don't go below minimum fee rate change this later
+				Value:    "114", // we don't go below minimum fee rate
 				Currency: thought.TestnetCurrency,
 			},
 		},
@@ -233,10 +233,12 @@ func TestConstructionService(t *testing.T) {
 		Metadata:          forceMarshalMap(t, metadata),
 	})
 
+	val0 := int64(0)
 	parseOps := []*types.Operation{
 		{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: 0,
+				Index:        0,
+				NetworkIndex: &val0,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -255,7 +257,8 @@ func TestConstructionService(t *testing.T) {
 		},
 		{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: 0,
+				Index:        1,
+				NetworkIndex: &val0,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
@@ -305,7 +308,7 @@ func TestConstructionService(t *testing.T) {
 			{
 				Bytes: forceHexDecode(
 					t,
-					"30450221009127a2f71c325e47b4119e298c5c486a1bbf0833c44fc472ca829af661ef1e13022064afdc1c4d554467722efab105bcc4f7faf0a94cf5024fdfdd60af93bf88ccc60102cfa3585ba5940899880892fc507d23ab2c79bd8f5ae40039d10e745dd60508bf", // nolint
+					"009127a2f71c325e47b4119e298c5c486a1bbf0833c44fc472ca829af661ef1e1364afdc1c4d554467722efab105bcc4f7faf0a94cf5024fdfdd60af93bf88ccc6", // nolint
 				),
 				SigningPayload: signingPayload,
 				PublicKey:      publicKey,

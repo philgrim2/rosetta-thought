@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 	"github.com/thoughtcore/rosetta-thought/configuration"
 	"github.com/thoughtcore/rosetta-thought/thought"
 	"github.com/thoughtcore/rosetta-thought/thoughtd/thtec/ecdsa"
@@ -195,7 +196,7 @@ func (s *ConstructionAPIService) ConstructionMetadata(
 		feePerKB = thought.MinFeeRate
 	}
 
-	// Calculated the estimated fee in Satoshis
+	// Calculated the estimated fee in Notions - the smallest tTHT unit
 	satoshisPerB := (feePerKB * float64(thought.NotionsInThought)) / bytesInKb
 	estimatedFee := satoshisPerB * options.EstimatedSize
 	suggestedFee := &types.Amount{
@@ -336,7 +337,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 
 		switch class {
 		case txscript.PubKeyHashTy:
-			hash, err := txscript.CalcSignatureHash( //here
+			hash, err := txscript.CalcSignatureHash(
 				script,
 				txscript.SigHashAll,
 				tx,
@@ -380,12 +381,6 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 		UnsignedTransaction: hex.EncodeToString(rawTx),
 		Payloads:            payloads,
 	}, nil
-}
-
-func normalizeSignature(signature []byte) ([]byte, error) {
-	sig, err := ecdsa.ParseSignature(signature)
-
-	return append(sig.Serialize(), byte(txscript.SigHashAll)), err
 }
 
 // ConstructionCombine implements the /construction/combine
@@ -440,8 +435,38 @@ func (s *ConstructionAPIService) ConstructionCombine(
 			)
 		}
 
-		// normalize signature
-		fullsig, err := normalizeSignature(request.Signatures[i].Bytes)
+		// Instantiate new secp256k1 ModNScalars for the R and S values of the DER signature format
+		rvalue := new(secp256k1.ModNScalar)
+		svalue := new(secp256k1.ModNScalar)
+		// Strip leading zeros from raw signature bytes - leading zeros causes issues when grabbing the first 32 bytes and last 32 bytes
+		rawBytes := request.Signatures[i].Bytes
+		for len(rawBytes) > 0 && rawBytes[0] == 0x00 {
+			rawBytes = rawBytes[1:]
+		}
+		// Place raw signature bytes into R and S values of DER format -> then error check
+		rresult := rvalue.SetByteSlice(rawBytes[:32])
+		sresult := svalue.SetByteSlice(rawBytes[32:64])
+		if rresult || sresult {
+			return nil, wrapErr(
+				ErrUnableToParseIntermediateResult,
+				fmt.Errorf("%w transaction signature cannot be parsed: signature could not be placed into DER format", err),
+			)
+		}
+		// Create a new signature from R and S values -> then Serialize, which places the R & S values into DER format ((30) (length of remainder) (02) (length of R) (R) (02) (length of S) (S))
+		sig := ecdsa.NewSignature(rvalue, svalue)
+		//sigBytes := sig.Serialize()
+
+		// Parse DER signature for error checking -> ParseSignature also recreates the signature - There exists code bloat here, but may be useful for debugging
+		//fullsig, err := ecdsa.ParseSignature(sigBytes)
+		//if fullsig == nil {
+		//	return nil, wrapErr(
+		//		ErrUnableToParseIntermediateResult,
+		//		fmt.Errorf("%w transaction signature cannot be parsed: value is nil", err),
+		//	)
+		//}
+
+		// Normalize DER signature output from ecdsa Parse by serializing and appending the 0x01 (SigHashAll) byte
+		normalizedSignature := append(sig.Serialize(), byte(txscript.SigHashAll))
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToParseIntermediateResult,
@@ -458,7 +483,7 @@ func (s *ConstructionAPIService) ConstructionCombine(
 			)
 		}
 
-		tx.TxIn[i].SignatureScript, err = txscript.NewScriptBuilder().AddData(fullsig).AddData(pkData).Script()
+		tx.TxIn[i].SignatureScript, err = txscript.NewScriptBuilder().AddData(normalizedSignature).AddData(pkData).Script()
 		if err != nil {
 			return nil, wrapErr(ErrUnableToParseIntermediateResult, fmt.Errorf("%w calculate input signature", err))
 		}
@@ -563,15 +588,15 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 			fmt.Errorf("%w unable to deserialize tx", err),
 		)
 	}
-
+	// Operation indexing - networkIndex refers to blockchain indexing as a list of inputs and a list of outputs from index  0
+	//						Index refers to rosetta specifc indexing that relies on some garbage single list starting from 1 - can be seen in the .ros file created for testing with the rosetta-cli
 	ops := []*types.Operation{}
 	for i, input := range tx.TxIn {
-		//networkIndex := int64(i)
-		//Index:        int64(len(ops))
+		networkIndex := int64(i)
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: int64(i),
-				//NetworkIndex: &networkIndex,
+				Index:        int64(len(ops)),
+				NetworkIndex: &networkIndex,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -595,9 +620,9 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 	}
 
 	for i, output := range tx.TxOut {
-		//networkIndex := int64(i)
-		//Index:        int64(len(ops))
+		networkIndex := int64(i)
 		_, addr, err := thought.ParseSingleAddress(s.config.Params, output.PkScript)
+
 		if err != nil {
 			return nil, wrapErr(
 				ErrUnableToDecodeAddress,
@@ -607,8 +632,8 @@ func (s *ConstructionAPIService) parseUnsignedTransaction(
 
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: int64(i),
-				//NetworkIndex: &networkIndex,
+				Index:        int64(len(ops)),
+				NetworkIndex: &networkIndex,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{
@@ -681,14 +706,14 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 			)
 		}
 
-		//networkIndex := int64(i)
+		networkIndex := int64(i)
 		signers = append(signers, &types.AccountIdentifier{
 			Address: addr.EncodeAddress(),
 		})
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: int64(i),
-				//NetworkIndex: &networkIndex,
+				Index:        int64(len(ops)),
+				NetworkIndex: &networkIndex,
 			},
 			Type: thought.InputOpType,
 			Account: &types.AccountIdentifier{
@@ -712,8 +737,7 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 	}
 
 	for i, output := range tx.TxOut {
-		//networkIndex := int64(i)
-		// Take a look at /rosetta-thought/indexer - Might need to change some things related to network index/index
+		networkIndex := int64(i)
 		_, addr, err := thought.ParseSingleAddress(s.config.Params, output.PkScript)
 		if err != nil {
 			return nil, wrapErr(
@@ -724,8 +748,8 @@ func (s *ConstructionAPIService) parseSignedTransaction(
 
 		ops = append(ops, &types.Operation{
 			OperationIdentifier: &types.OperationIdentifier{
-				Index: int64(i),
-				//NetworkIndex: &networkIndex,
+				Index:        int64(len(ops)),
+				NetworkIndex: &networkIndex,
 			},
 			Type: thought.OutputOpType,
 			Account: &types.AccountIdentifier{

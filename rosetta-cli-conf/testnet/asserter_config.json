@@ -1,0 +1,123 @@
+{
+ "network_identifier": {
+  "blockchain": "Thought",
+  "network": "Testnet3"
+ },
+ "genesis_block_identifier": {
+  "index": 0,
+  "hash": "00000000917e049641189c33d6b1275155e89b7b498b3b4f16d488f60afe513b"
+ },
+ "allowed_operation_types": [
+  "COINBASE",
+  "INPUT",
+  "OUTPUT"
+ ],
+ "allowed_operation_statuses": [
+  {
+   "status": "SKIPPED",
+   "successful": false
+  },
+  {
+   "status": "SUCCESS",
+   "successful": true
+  }
+ ],
+ "allowed_errors": [
+  {
+   "code": 0,
+   "message": "Endpoint not implemented",
+   "retriable": false
+  },
+  {
+   "code": 1,
+   "message": "Endpoint unavailable offline",
+   "retriable": false
+  },
+  {
+   "code": 2,
+   "message": "Thoughtd is not ready",
+   "retriable": true
+  },
+  {
+   "code": 3,
+   "message": "Thoughtd error",
+   "retriable": false
+  },
+  {
+   "code": 4,
+   "message": "Block not found",
+   "retriable": false
+  },
+  {
+   "code": 5,
+   "message": "Unable to derive address",
+   "retriable": false
+  },
+  {
+   "code": 6,
+   "message": "Unable to parse intent",
+   "retriable": false
+  },
+  {
+   "code": 7,
+   "message": "Unable to parse intermediate result",
+   "retriable": false
+  },
+  {
+   "code": 8,
+   "message": "Missing ScriptPubKeys",
+   "retriable": false
+  },
+  {
+   "code": 9,
+   "message": "Coin is invalid",
+   "retriable": false
+  },
+  {
+   "code": 10,
+   "message": "Unable to decode address",
+   "retriable": false
+  },
+  {
+   "code": 11,
+   "message": "Unable to decode ScriptPubKey",
+   "retriable": false
+  },
+  {
+   "code": 12,
+   "message": "Unable to calculate signature hash",
+   "retriable": false
+  },
+  {
+   "code": 13,
+   "message": "Script type is not supported",
+   "retriable": false
+  },
+  {
+   "code": 14,
+   "message": "Unable to compute PK script",
+   "retriable": false
+  },
+  {
+   "code": 15,
+   "message": "Unable to get coins",
+   "retriable": false
+  },
+  {
+   "code": 16,
+   "message": "Transaction not found",
+   "retriable": false
+  },
+  {
+   "code": 17,
+   "message": "Could not get suggested fee rate",
+   "retriable": false
+  },
+  {
+   "code": 18,
+   "message": "Unable to get balance",
+   "retriable": false
+  }
+ ],
+ "allowed_timestamp_start_index": 1
+}
